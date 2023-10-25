@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipAmount:TextView
     private lateinit var tvTotalAmount:TextView
     private lateinit var tvTipDescription:TextView
+    private lateinit var etNumberOfPeople: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,36 +55,51 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+        etNumberOfPeople = findViewById(R.id.etNumberOfPeople)
+        etNumberOfPeople.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                computeTipAndTotal()
+            }
+        })
+
     }
 
     private fun updateTipDescription(tipPercent:Int) {
-        val tipDescription=when(tipPercent){
-            in 0..9->"Poor"
-            in 10..14->"Acceptable"
-            in 15..19->"Good"
-            in 20..24->"Great"
-            else->"Amazing"
+        val tipDescription = when (tipPercent) {
+            in 0..9 -> "😞" // Smajli za "Poor"
+            in 10..14 -> "😐" // Smajli za "Acceptable"
+            in 15..19 -> "😊" // Smajli za "Good"
+            in 20..24 -> "😄" // Smajli za "Great"
+            else -> "😍" // Smajli za "Amazing"
         }
+
         tvTipDescription.text=tipDescription
-        val color = ArgbEvaluator().evaluate(
-            tipPercent.toFloat() / seekBarTip.max,
-            ContextCompat.getColor(this, R.color.color_worst_tip),
-            ContextCompat.getColor(this, R.color.color_best_tip)
-        ) as Int
-        tvTipDescription.setTextColor(color)
+
     }
 
     private fun computeTipAndTotal() {
-        if(etBaseAmount.text.isEmpty()){
-            tvTipAmount.text=""
-            tvTotalAmount.text=""
+        if (etBaseAmount.text.isEmpty() || etNumberOfPeople.text.isEmpty()) {
+            tvTipAmount.text = ""
+            tvTotalAmount.text = ""
             return
         }
-        val baseAmount= etBaseAmount.text.toString().toDouble()
-        val tipPercent=seekBarTip.progress
-        val tipAmount=baseAmount*tipPercent/100
-        val totalAmount=baseAmount+tipAmount
-        tvTipAmount.text="%.2f".format(tipAmount)
-        tvTotalAmount.text="%.2f".format(totalAmount)
+
+        val baseAmount = etBaseAmount.text.toString().toDouble()
+        val tipPercent = seekBarTip.progress
+        val numberOfPeople = etNumberOfPeople.text.toString().toInt()
+
+        val tipAmount = baseAmount * tipPercent / 100
+        val totalAmount = baseAmount + tipAmount
+        val amountPerPerson = totalAmount / numberOfPeople
+
+        tvTipAmount.text = "%.2f".format(tipAmount)
+
+        // Prikazivanje iznosa po osobi
+        tvTotalAmount.text = "%.2f".format(amountPerPerson)
     }
+
 }

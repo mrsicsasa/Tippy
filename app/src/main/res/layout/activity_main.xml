@@ -34,12 +34,11 @@
         android:id="@+id/tvTipLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="56dp"
         android:text="Tip"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/tvBaseLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvTotalLabel"
         app:layout_constraintTop_toBottomOf="@+id/tvTipPercentLabel" />
 
     <TextView
@@ -48,11 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:text="Total"
+        android:text="Per person"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="@+id/tvBaseLabel"
+        app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTipLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/etNumberOfPeople" />
 
     <EditText
         android:id="@+id/etBaseAmount"
@@ -106,4 +106,16 @@
         app:layout_constraintStart_toStartOf="@+id/seekBarTip"
         app:layout_constraintTop_toBottomOf="@+id/seekBarTip"
         tools:text="Acceptable" />
+
+    <EditText
+        android:id="@+id/etNumberOfPeople"
+        android:layout_width="256dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:hint="Enter number of people"
+        android:inputType="number"
+        android:maxLength="2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTipAmount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
